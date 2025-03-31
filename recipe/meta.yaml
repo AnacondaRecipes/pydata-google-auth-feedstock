@@ -1,6 +1,6 @@
 {% set name = "pydata-google-auth" %}
-{% set version = "1.2.0" %}
-{% set sha256 = "076411ecd7a5ac927ba9741c32ea599bc66e54170dffc1259f3cd353cf25cbd7" %}
+{% set version = "1.9.1" %}
+{% set sha256 = "0a51ce41c601ca0bc69b8795bf58bedff74b4a6a007c9106c7cbcdec00eaced2" %}
 
 package:
   name: {{ name|lower }}
@@ -12,22 +12,30 @@ source:
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vvv
 
 requirements:
   build:
     - python
     - setuptools
     - pip
+  host:
+    - python
+    - setuptools
+    - wheel
+    - pip
   run:
     - python
-    - google-auth >=1.0.0,<2dev
-    - google-auth-oauthlib
+    - google-auth >=1.25.0,<3.0dev
+    - google-auth-oauthlib >=0.4.0
 
 test:
   imports:
     - pydata_google_auth
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/pydata/pydata-google-auth
@@ -40,7 +48,7 @@ about:
     pydata-google-auth adds helpers to authenticate with end-user credentials
     to Google APIs from Python. It wraps the official google-auth and
     google-auth-oauthlib libraries.
-  doc_url: http://pydata-google-auth.readthedocs.io/
+  doc_url: https://pydata-google-auth.readthedocs.io/
   dev_url: https://github.com/pydata/pydata-google-auth
 
 extra:
